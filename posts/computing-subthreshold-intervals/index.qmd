@@ -1,0 +1,470 @@
+---
+title: "Computing Subthreshold Intervals"
+date: "2026-09-29"
+categories: [code, analysis]
+image: "image.png"
+---
+
+## Spoiler Alert
+
+Compute your NSM paces with the following Colab document:
+
+- [Colab](https://colab.research.google.com/drive/1E9gBvjxzVcup3U8bBR8GFGPCBGg5KL_o?usp=sharing)
+
+## A Note Before We Begin
+
+For the sake of this post, we will assume, unreasonably, prior familiarity with the basics of the James Copeland's Norweigan Singles Method (`NSM`) and with Dr. Jack Daniels' formulation of `VDOT`. Absent that familiarity, I recommend the following books:
+
+- [*Norwegian Singles Method: Subthreshold Running Kept Simple*](Norwegian Singles Method: Subthreshold Running Kept Simple)
+- [*Daniels' Running Formula*](https://www.goodreads.com/en/book/show/112152.Daniels_Running_Formula)
+
+If you don't have a library nearby, you can probably read more at the following websites, though you should, of course, still make some effort to support the relevant authors.
+
+- [Norwegian Singles Approach (NSA) Training Guide](https://www.reddit.com/r/NorwegianSinglesRun/wiki/index/)
+- [The Daniels/Gilbert Formula](https://www.simpsonassociatesinc.com/runningmath1.htm)
+
+It's hard to know exactly how long any of those links will last, but here's hoping.
+
+## The Problem
+
+There is one fundamental problem with the existing `NSM` formulations of which I am aware. In brief, to employ NSM, a runner would either need to (1) invest on the order of 100s of USD in a lactate monitor, or (2) rely on some other form of community-provided calculator. To my knowledge, there is one calculator of moderately high regard: LacTrace.
+
+- [LacTrace](https://lactrace.com/)
+
+To the best of my knowledge, this tool was developed on a slight misinterpretation of early reported results from lactate testing. I believe, originally, three weekly intervals were recommended as follows:
+
+| Count | Duration, minutes | Pace, race distance |
+|-|-|
+|8-12 | 3-4   |  15k |
+| 4-6 | 6-8   | HM (~21k) |
+| 3   | 10-12 | 30k |
+
+However, we must note that these intervals were set, to the best of my knowledge, by James Copeland when James had an approximately 19 minute 5k. Consulting a third party VDOT calculator:
+
+- [VDOT Running Calculator](https://vdoto2.com/calculator)
+
+We can plug in a 19 minute 5k and see the following race times.
+
+| Race Distance | Duration |  |
+|-|-|
+| 15k | 1:00:35   |
+| HM (~21k) | 1:27:14 |
+
+Like many calculators, this one does not report 30k times but if it did, it would report 2:06:56, and we'll see why latter.
+
+| Race Distance | Duration |  |
+|-|-|
+| 15k | 1:00:35   |
+| HM (~21k) | 1:27:14 |
+| 30k | 2:06:56 |
+
+This corresponds to the following LacTrace intervals:
+
+| Duration, minutes | Pace, min/mi |
+|-|-|
+| 3-4   |  6:30-6:42 |
+| 6-8   | 6:39-6:51 |
+| 10-12 | 6:49-7:01 |
+
+What this just so happens to mean, is that James Copeland was running 3-4 minute intervals (I believe, in practice, 1km intervals, but that is neither here nor there), at a VDOT 60 minute pace, which we almost always, in training theory, regard as *threshold* pace.
+
+Quoth [*Runner's World*](https://www.runnersworld.com/advanced/a20807282/threshold-training/):
+
+> Most runners can figure that their threshold pace is equal to a pace they could race at for 50 to 60 minutes. In fact, for slower runners, threshold pace might actually be 10K race pace because they are taking nearly an hour to “race” this distance. Intensity of effort, not necessarily distance of running or racing, is what determines the degree of stress being put on the body’s systems.
+
+Hold on, what was that?
+
+> Intensity of effort, not necessarily distance of running or racing...
+
+Pulling the curtain back a little bit, we recall that the basis of `NSM` is sub-*threshold* training, not, perhaps, sub-15k training, and realize we may have a problem on our hands.
+
+If we return to LacTrace and model, instead of a 19 minute 5k runner, a 60 minute 10k runner, we get the following paces:
+
+| Duration, minutes | Pace, min/mi |
+|-|-|
+| 3-4   | 9:55-10:11 |
+| 6-8   | 10:08-10:24 |
+| 10-12 | 10:19-10:35 |
+
+We also note, at this time, that LacTrace does helpfully provide a threshold pace recommendation. For our 19 minute 5k runner, above, LacTrace reported a 6:33 *threshold* pace, squarely in the middle of the 3-4 minute interval pace. However, for a 60 minute 10k runner, it recommends a maximum 3-4 minute pace of 9:55 versus a 9:43 threshold pace. 
+
+My sense is that this recommendation would cause runners with a slower than 19 minute 5k to undertrain, runners with a 5k faster than 19 minutes to overtrain, and everyone without a 19 minute 5ker to have a generally bad time. 
+
+I understand a key goal of `NSM` is to achieve a sub-threshold *metabolic state*, rather than a physiological application specific to some race distance, so we need to create a calculator that instead determines 60, 90, and 120 minutes paces, rather than 15k, HM, and 30k. 
+
+Unfortunately, existing VDOT tables, such as those in [*Daniels' Running Formula*](https://www.goodreads.com/en/book/show/112152.Daniels_Running_Formula), are all race-distance relative. Fortunately, I have a doctorate and no other hobbies.
+
+## The Mathematical Foundations of VDOT
+
+### Aside
+
+As far as I know, these formulas are not present in any versions of [*Daniels' Running Formula*](https://www.goodreads.com/en/book/show/112152.Daniels_Running_Formula), and are instead on present in a specific edition of an earlier pamphlet named *Oxygen Power* (with a co-author named Gilbert), but I have yet to get access to *Oxygen Power* and am relying on third party sources, namely Larry Simpson's blog.
+
+Larry Simpson sets forth VDOT calculations in two parts: an oxygen cost for some velocity, and a maximum aerobic utilization for some duration.
+
+### Oxygen Cost
+
+The Larry Simpson **Oxygen Cost Formula** over some velocity $v$, in meters per minute:
+
+$$
+O_2\text{cost}(v) = 0.182258v + 0.000104v^2 - 4.6
+$$
+
+It is a simple matter to express this in Python:
+
+```{python}
+# Larry Simpson Oxygen Cost Formula, attributed to Daniels/Gilbert
+o_2_cost = lambda v : 0.182258 * v + 0.000104 * v * v - 4.6
+```
+
+I have never used meters per minute before, but in point of fact I do talk about a 19 minute 5k and not a, hold on...
+
+```{python}
+# 19 minutes by 60 seconds per minute
+print(19 * 60)
+```
+
+Right - 1140 second 5k. A classic goal.
+
+From there, we can compute some oxygen costs:
+
+```{python}
+# 40 minute 10k
+print("40 min 10k:", o_2_cost(10000/40))
+# 3 hour marathon
+print("3 hr mara.:", o_2_cost(42195 / (3 * 60)))
+```
+
+At this point, if you are a 41 minute 10k and 88 minute HM runner, like me, you probably realize something is wrong here. It is much harder to run a 3 hour marathon than a 40 minute 10k, yet the reported cost is lower. This isn't just me, our earlier [VDOT Running Calculator](https://vdoto2.com/calculator) agrees:
+
+| Race Distance | Duration |  |
+|-|-|
+| 10k | 0:40:00   |
+| Marathon | 3:04:43 |
+
+Not to worry, there's more to come.
+
+### Aerobic Utilization
+
+Larry Simpson calls this the "drop dead formula" which I find a bit morbid, but does capture the underlying truth that there is some physiological limit pacing. I prefer to think of it as a maximum sustainable level of aerobic utilization. We imagine, for example, we can work harder for 1 minute than for 60 minutes. Larry Simpson presents the following, I believe also lifted from Daniels' *Oxygen Power*.
+
+Aerobic Utilization, over some time $t$ in minutes:
+
+$$
+O_2\text{util}(t) = 0.2989558e^{-0.1932605t} + 0.1894393e^{-0.012778t} + 0.8
+$$
+
+It is a simple matter to express this in Python:
+
+```{python}
+# We need the base of the natural logarithm, e
+from numpy import e
+# Larry Simpson Drop Dead Formula, attributed to Daniels/Gilbert
+o_2_util = lambda t : 0.2989558 * e ** (t * -0.1932605) + 0.1894393 * e ** (t * -0.012778) + 0.8
+```
+
+We can then ask, simply, what percentage of aerobic utilization can we sustain for, say, 1 hour - our threshold pace.
+
+```{python}
+# Percentage Aerobic Utilization for One Hour (Threshold Pace)
+print(o_2_util(60))
+```
+
+We note, at this time, that this utilization is the same for all runners, regardless of pace. That is, threshold is set by duration, and the threshold pace corresponds to different race distance for different runners, from an elite half marathon, to a hobbyist 15k, to an athletic 10k, to a walking 5k.
+
+We can now show just how we would find that runner with a 40 minute 10k would have around a 3:05 marathon.
+
+First, we compute the oxygen cost of a 40 minute 10k.
+
+```{python}
+# 40 minute 10k
+cost = o_2_cost(10000/40)
+print("40 min 10k cost:", cost)
+```
+
+Same as before.
+
+Now we compute the sustainable aerobic utilization for 40 minutes.
+
+```{python}
+# 40 minute utilization
+util = o_2_util(40)
+print("40 min use %age:", util)
+```
+
+From here, we may finally compute the `VDOT`, a derived measure of distance-agostic running fitness. It roughly corresponds to an abstract idea of maximum, instanteous aerobic capacity.
+
+```{python}
+# 40min 10k VDOT
+vdot = cost / util
+print("40 min 10k VDOT:", vdot)
+```
+
+And about that marathon...
+
+```{python}
+# 3 hour marathon VDOT
+print("3 hour mar VDOT:", o_2_cost(42195 / (3 * 60)) / o_2_util(3 * 60))
+```
+
+We can but it all together:
+
+```{python}
+# VDOT given time in minutes and a distance in meters
+marathon = 42195
+half_marathon = 42195 / 2
+vdot = lambda t, d : o_2_cost(d / t) / o_2_util(t)
+```
+
+And calculate, for example, the VDOT of a 19 minute 5k.
+
+```{python}
+# 19 minute 5k VDOT
+print(vdot(19, 5000))
+```
+
+Squarely between a 40 minute 10k and a 3 hour marathon, I might note.
+
+## The Solution
+
+So we have now shown how to calculate VDOT (and do so over non-standard distances, such as 30k, by the way).
+
+It remains, however, to calculate:
+1. The equivalent *pace*...
+2. For some *duration*...
+3. Based on some *race time*...
+4. For some *distance*.
+
+Basically, given some VDOT, how can we determine a sustainable 60 minute, 90 minute, and 120 minute pace. This is equivalent to determine the distance for those times as well (since we are fixing time), so essentially we are trying to solve the following, where $d$ is determined by interval duration and $d'$ and $t'$ are the distance and time of the most recent race result.
+
+$$
+d : \text{VDOT}(t, d) = \text{VDOT}(t', d')
+$$
+
+It is a simple matter to expand `VDOT` back to its complete numerical expression:
+
+$$
+\text{VDOT}(t, d) = \frac{0.182258 \times \frac{d}{t} + 0.000104 \times (\frac{d}{t})^2 - 4.6}{0.2989558e^{-0.1932605t} + 0.1894393e^{-0.012778t} + 0.8}
+$$
+
+Or in Python:
+
+```{python}
+# VDOT given time in minutes and a distance in meters
+vdot = lambda t, d : (0.182258 * (d / t) + 0.000104 * (d / t) * (d / t) - 4.6) / (0.2989558 * e ** (t * -0.1932605) + 0.1894393 * e ** (t * -0.012778) + 0.8)
+```
+
+I suppose I can write that on more than one line.
+
+```{python}
+# VDOT given time in minutes and a distance in meters
+def vdot(t, d):
+    v = d / t
+    cost = (0.182258 * v + 0.000104 * v * v - 4.6)
+    util = 0.2989558 * e ** (t * -0.1932605) + 0.1894393 * e ** (t * -0.012778) + 0.8
+    return cost / util
+```
+
+We then need only solve for $d$, a simple matter. You could, of course, think your own thoughts, but I prefer to use SymPy.
+
+```{python}
+# Create variables for time and distance
+import sympy
+t, d = sympy.symbols('t d')
+
+# Create a symbolic expression over these variables.
+expr = vdot(t, d)
+
+# View the expression
+expr
+```
+
+The formatting is a bit different than what I did above manually, but you can probably convince yourself it's the same.
+
+We take the existing example of a 19 minute 5k, which has... some VDOT.
+
+```{python}
+# Set equal to the vdot of a 19 minute 5k
+eq5k = sympy.Eq(expr, vdot(19, 5000))
+eq5k
+```
+
+And from there we can compute a distance to be covered in, say 120 minutes, previously regarded as the 30k pace.
+
+```{python}
+# Two hour distance for 19 minute 5k runner
+t = 120
+twoh = sympy.Eq(vdot(t, d), vdot(19, 5000))
+twoh
+```
+
+It is a simple enough matter to solve for $d$.
+
+```{python}
+# Distance for a 2 hour run
+dist = sympy.solve(twoh, d)
+dist
+```
+
+From there, we can use our experience as runners to realize we rarely, if ever, run negative distances.  We got close to, but not exactly, 30k.
+
+```{python}
+# Distance for a 2 hour run
+dist = [d for d in dist if d > 0][0]
+dist
+```
+
+This is probably more useful to us in minutes per mile, which I happen to use because of the uncommon misfortune of living in a country that places mile markers, rather than kilometre markers, on its race courses.
+
+```{python}
+# There are 1609.344 m in a mi 
+# https://en.wikipedia.org/wiki/Mile
+mi = 1609.344
+pace = t / (dist / mi)
+pace
+```
+
+In fairly obnoxious fashion, I also use seconds instead of fractional minutes.
+
+```{python}
+pace // 1, pace % 1 * 60
+```
+
+We can format that to look a bit nicer.
+
+```{python}
+"%02d:%02d" % (pace // 1, pace % 1 * 60)
+```
+
+So for a 10 to 12 minute interval, a runner with a 19 minute 5k would run 6:47.  LacTrace is quite close to this, we recall:
+
+| Duration, minutes | Pace, min/mi |
+|-|-|
+| 3-4   | 6:30-6:42 |
+| 6-8   | 6:39-6:51 |
+| 10-12 | 6:49-7:01 |
+
+However, we can also check how our method stacks up for a (1) 13 minute 5k and (2) 30 minute 5k.
+
+### Putting it all together
+
+Before that though, we took many tiny steps to get to our result. Let's wrap that up into one solution, shall we?
+
+```{python}
+# Take 
+#      a race time in minutes
+#      a race distance in meters 
+#      a other time in minutes
+# Find the pace sustainable for that other time
+# In minutes per miles
+
+def pace_finder(t_race, d_race, t_train):
+
+    # Libraries and unit conversions
+    from numpy import e
+    import sympy
+    mi = 1609.344
+    d = sympy.symbols('d')
+    
+    # VDOT calculator
+    def vdot(t, d):
+        v = d / t
+        cost = (0.182258 * v + 0.000104 * v * v - 4.6)
+        util = 0.2989558 * e ** (t * -0.1932605) + 0.1894393 * e ** (t * -0.012778) + 0.8
+        return cost / util
+        
+    expr = sympy.Eq(vdot(t_train, d), vdot(t_race, d_race)) 
+    dist = sympy.solve(expr, d)
+    dist = [d for d in dist if d > 0][0]
+    pace = t_train / (dist / mi)
+    return pace
+```
+
+We can "pretty" print the paces.
+
+```{python}
+# Take 
+#      a race time in minutes
+#      a race distance in meters 
+# Print out intervals paces in minutes per mile.
+def interval_finder(t, d):
+   show_pace = lambda p : print("%02d:%02d" % (p // 1, p % 1 * 60))
+   show_pace(pace_finder(t, d, 60))
+   show_pace(pace_finder(t, d, 90))
+   show_pace(pace_finder(t, d, 120))
+```
+
+Now, training paces for someone with a 19 minute 5k.
+
+```{python}
+interval_finder(19, 5000)
+```
+
+Compare to LacTrace:
+
+| Duration, minutes | LacTrace | Mine |
+|-|-|-|
+| 3-4   | 6:30-6:42 | 6:29 |
+| 6-8   | 6:39-6:51 | 6:39 |
+| 10-12 | 6:49-7:01 | 6:47 |
+
+### Seeing the Difference
+
+Let's consider a 13 minute 5k and a 30 minute 5k.
+
+```{python}
+interval_finder(13, 5000)
+```
+| Duration, minutes | LacTrace | Mine |
+|-|-|-|
+| 3-4   | 4:27-4:35 | 04:32 |
+| 6-8   | 4:33-4:41 | 04:39 |
+| 10-12 | 4:39-4:47 | 04:45 |
+
+
+```{python}
+interval_finder(30, 5000)
+```
+
+| Duration, minutes | LacTrace | Mine |
+|-|-|-|
+| 3-4   | 10:18-10:34 | 10:00 |
+| 6-8   | 10:32-10:48 | 10:16 |
+| 10-12 | 10:42-10:58 | 10:27 |
+
+## Use It Yourself
+
+While I had every intention of embedding a calculator here, that will have to be for another day, but you can run this code yourself in Google Colab or the Python environment of your choice.
+
+- [Colab](https://colab.research.google.com/drive/1E9gBvjxzVcup3U8bBR8GFGPCBGg5KL_o?usp=sharing)
+
+I currently have my most recent race, a 19:31 5k, at the beginning. 
+
+```{.python filename="Colab Excerpt"}
+# Your latest race result, in meters and minutes
+d = 5000
+t = 19 + (31/60)
+```
+
+Simply update the distance and time, and press the "play" button to the left. I get the following:
+
+```{.email filename="My NSM Paces"}
+06:39
+06:50
+06:57
+```
+
+### The Usefulness
+
+Suppose you, as I do, know someone who recently ran a 02:25:40 half marathon.
+
+```{.python filename="Colab Excerpt"}
+d = 21097.5
+t = 2 * 60 + 25 + (40/60)
+```
+
+| Duration, minutes | LacTrace | Mine |
+|-|-|-|
+| 3-4   | 10:52-11:08 | 10:32
+| 6-8   | 11:05-11:21 | 10:48
+| 10-12 | 11:16-11:32 | 10:59

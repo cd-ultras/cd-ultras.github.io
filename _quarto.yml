@@ -16,8 +16,14 @@ website:
         href: https://www.linkedin.com/in/calvin-deutschbein/
 format:
   html:
-    theme: slate 
+    theme: superhero
     css: styles.css
-
+    toc: true
+    code-line-numbers: false
+    mainfont: monospace
+    code-tools:
+      source: true
+      toggle: false
+      caption: none
 
 

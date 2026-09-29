@@ -19,4 +19,6 @@ about:
 
 ---
 
-About this blog
+I actually just needed a place to stash writing and calculations on training theory.
+
+You can see my recent race results on [Ultrasignup](https://ultrasignup.com/results_participant.aspx?fname=Calvin&lname=Deutschbein).
