@@ -1,0 +1,22 @@
+---
+title: "About"
+image: profile.jpg
+about:
+  template: jolla
+  links:
+   - icon: github
+     text: GitHub
+     href: https://github.com/cd-ultras
+   - icon: bsky
+     text: Bluesky
+     href: https://bsky.app/profile/calvinallegedly.bsky.social
+   - icon: instagram
+     text: Instagram
+     href: https://www.instagram.com/calvinallegedly/ 
+   - icon: linkedin
+     text: LinkedIn
+     href: https://www.linkedin.com/in/calvin-deutschbein/
+
+---
+
+About this blog

@@ -1,0 +1,23 @@
+project:
+  type: website
+
+website:
+  title: "How to Ultra"
+  navbar:
+    right:
+      - about.qmd
+      - icon: github
+        href: https://github.com/cd-ultras
+      - icon: bsky
+        href: https://bsky.app/profile/calvinallegedly.bsky.social
+      - icon: instagram
+        href: https://www.instagram.com/calvinallegedly/ 
+      - icon: linkedin
+        href: https://www.linkedin.com/in/calvin-deutschbein/
+format:
+  html:
+    theme: slate 
+    css: styles.css
+
+
+
