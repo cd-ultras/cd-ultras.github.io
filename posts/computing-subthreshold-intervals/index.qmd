@@ -88,7 +88,7 @@ If we return to LacTrace and model, instead of a 19 minute 5k runner, a 60 minut
 
 We also note, at this time, that LacTrace does helpfully provide a threshold pace recommendation. For our 19 minute 5k runner, above, LacTrace reported a 6:33 *threshold* pace, squarely in the middle of the 3-4 minute interval pace. However, for a 60 minute 10k runner, it recommends a maximum 3-4 minute pace of 9:55 versus a 9:43 threshold pace. 
 
-My sense is that this recommendation would cause runners with a slower than 19 minute 5k to undertrain, runners with a 5k faster than 19 minutes to overtrain, and everyone without a 19 minute 5ker to have a generally bad time. 
+My sense is that this recommendation would cause runners with a slower than 19 minute 5k to undertrain, runners with a 5k faster than 19 minutes to overtrain, and everyone without a 19 minute 5k to have a generally bad time, roughly in accordance with how close to 19 minutes they are.
 
 I understand a key goal of `NSM` is to achieve a sub-threshold *metabolic state*, rather than a physiological application specific to some race distance, so we need to create a calculator that instead determines 60, 90, and 120 minutes paces, rather than 15k, HM, and 30k. 
 
