@@ -236,7 +236,7 @@ It remains, however, to calculate:
 3. Based on some *race time*...
 4. For some *distance*.
 
-Basically, given some VDOT, how can we determine a sustainable 60 minute, 90 minute, and 120 minute pace. This is equivalent to determine the distance for those times as well (since we are fixing time), so essentially we are trying to solve the following, where $d$ is determined by interval duration and $d'$ and $t'$ are the distance and time of the most recent race result.
+Basically, given some VDOT, how can we determine a sustainable 60 minute, 90 minute, and 120 minute pace. This is equivalent to determining the distance for those times as well (since we are fixing time), so essentially we are trying to solve the following, where $d$ is determined by interval duration and $d'$ and $t'$ are the distance and time of the most recent race result.
 
 $$
 d : \text{VDOT}(t, d) = \text{VDOT}(t', d')
@@ -413,6 +413,8 @@ Compare to LacTrace:
 
 Let's consider a 13 minute 5k and a 30 minute 5k.
 
+#### 13 min
+
 ```{python}
 interval_finder(13, 5000)
 ```
@@ -422,6 +424,7 @@ interval_finder(13, 5000)
 | 6-8   | 4:33-4:41 | 04:39 |
 | 10-12 | 4:39-4:47 | 04:45 |
 
+#### 30 min
 
 ```{python}
 interval_finder(30, 5000)
