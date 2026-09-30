@@ -146,7 +146,7 @@ Not to worry, there's more to come.
 
 ### Aerobic Utilization
 
-Larry Simpson calls this the "drop dead formula" which I find a bit morbid, but does capture the underlying truth that there is some physiological limit pacing. I prefer to think of it as a maximum sustainable level of aerobic utilization. We imagine, for example, we can work harder for 1 minute than for 60 minutes. Larry Simpson presents the following, I believe also lifted from Daniels' *Oxygen Power*.
+Larry Simpson calls this the "drop dead formula" which I find a bit morbid, but does capture the underlying truth that there is some physiological limit to pacing. I prefer to think of it as a maximum sustainable level of aerobic utilization. We imagine, for example, we can work harder for 1 minute than for 60 minutes. Larry Simpson presents the following, I believe also lifted from Daniels' *Oxygen Power*.
 
 Aerobic Utilization, over some time $t$ in minutes:
 
