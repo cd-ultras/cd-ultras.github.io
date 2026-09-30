@@ -428,12 +428,12 @@ window.Quarto = {
 O_2\text{cost}(v) = 0.182258v + 0.000104v^2 - 4.6
 \]</span></p>
 <p>It is a simple matter to express this in Python:</p>
-<div id="7e5c4cf0" class="cell" data-execution_count="1">
+<div id="39b1bde6" class="cell" data-execution_count="1">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Larry Simpson Oxygen Cost Formula, attributed to Daniels/Gilbert</span></span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>o_2_cost <span class="op">=</span> <span class="kw">lambda</span> v : <span class="fl">0.182258</span> <span class="op">*</span> v <span class="op">+</span> <span class="fl">0.000104</span> <span class="op">*</span> v <span class="op">*</span> v <span class="op">-</span> <span class="fl">4.6</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>I have never used meters per minute before, but in point of fact I do talk about a 19 minute 5k and not a, hold on…</p>
-<div id="1da0be0d" class="cell" data-execution_count="2">
+<div id="055b8368" class="cell" data-execution_count="2">
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 19 minutes by 60 seconds per minute</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="dv">19</span> <span class="op">*</span> <span class="dv">60</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -442,7 +442,7 @@ O_2\text{cost}(v) = 0.182258v + 0.000104v^2 - 4.6
 </div>
 <p>Right - 1140 second 5k. A classic goal.</p>
 <p>From there, we can compute some oxygen costs:</p>
-<div id="5cb8fcb6" class="cell" data-execution_count="3">
+<div id="07cebf91" class="cell" data-execution_count="3">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 40 minute 10k</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"40 min 10k:"</span>, o_2_cost(<span class="dv">10000</span><span class="op">/</span><span class="dv">40</span>))</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 hour marathon</span></span>
@@ -481,14 +481,14 @@ O_2\text{cost}(v) = 0.182258v + 0.000104v^2 - 4.6
 O_2\text{util}(t) = 0.2989558e^{-0.1932605t} + 0.1894393e^{-0.012778t} + 0.8
 \]</span></p>
 <p>It is a simple matter to express this in Python:</p>
-<div id="e9ec3d6e" class="cell" data-execution_count="4">
+<div id="0d6b24e2" class="cell" data-execution_count="4">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># We need the base of the natural logarithm, e</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> e</span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Larry Simpson Drop Dead Formula, attributed to Daniels/Gilbert</span></span>
 <span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>o_2_util <span class="op">=</span> <span class="kw">lambda</span> t : <span class="fl">0.2989558</span> <span class="op">*</span> e <span class="op">**</span> (t <span class="op">*</span> <span class="op">-</span><span class="fl">0.1932605</span>) <span class="op">+</span> <span class="fl">0.1894393</span> <span class="op">*</span> e <span class="op">**</span> (t <span class="op">*</span> <span class="op">-</span><span class="fl">0.012778</span>) <span class="op">+</span> <span class="fl">0.8</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can then ask, simply, what percentage of aerobic utilization can we sustain for, say, 1 hour - our threshold pace.</p>
-<div id="cc8c33f5" class="cell" data-execution_count="5">
+<div id="918fb2ee" class="cell" data-execution_count="5">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Percentage Aerobic Utilization for One Hour (Threshold Pace)</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(o_2_util(<span class="dv">60</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -498,7 +498,7 @@ O_2\text{util}(t) = 0.2989558e^{-0.1932605t} + 0.1894393e^{-0.012778t} + 0.8
 <p>We note, at this time, that this utilization is the same for all runners, regardless of pace. That is, threshold is set by duration, and the threshold pace corresponds to different race distance for different runners, from an elite half marathon, to a hobbyist 15k, to an athletic 10k, to a walking 5k.</p>
 <p>We can now show just how we would find that runner with a 40 minute 10k would have around a 3:05 marathon.</p>
 <p>First, we compute the oxygen cost of a 40 minute 10k.</p>
-<div id="57a8da89" class="cell" data-execution_count="6">
+<div id="146dac0d" class="cell" data-execution_count="6">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 40 minute 10k</span></span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>cost <span class="op">=</span> o_2_cost(<span class="dv">10000</span><span class="op">/</span><span class="dv">40</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"40 min 10k cost:"</span>, cost)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -508,7 +508,7 @@ O_2\text{util}(t) = 0.2989558e^{-0.1932605t} + 0.1894393e^{-0.012778t} + 0.8
 </div>
 <p>Same as before.</p>
 <p>Now we compute the sustainable aerobic utilization for 40 minutes.</p>
-<div id="9b9456b7" class="cell" data-execution_count="7">
+<div id="5858ea50" class="cell" data-execution_count="7">
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 40 minute utilization</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>util <span class="op">=</span> o_2_util(<span class="dv">40</span>)</span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"40 min use %age:"</span>, util)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -517,7 +517,7 @@ O_2\text{util}(t) = 0.2989558e^{-0.1932605t} + 0.1894393e^{-0.012778t} + 0.8
 </div>
 </div>
 <p>From here, we may finally compute the <code>VDOT</code>, a derived measure of distance-agostic running fitness. It roughly corresponds to an abstract idea of maximum, instanteous aerobic capacity.</p>
-<div id="257a00d6" class="cell" data-execution_count="8">
+<div id="c0eac9df" class="cell" data-execution_count="8">
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 40min 10k VDOT</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>vdot <span class="op">=</span> cost <span class="op">/</span> util</span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"40 min 10k VDOT:"</span>, vdot)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -526,22 +526,22 @@ O_2\text{util}(t) = 0.2989558e^{-0.1932605t} + 0.1894393e^{-0.012778t} + 0.8
 </div>
 </div>
 <p>And about that marathon…</p>
-<div id="264e6f0e" class="cell" data-execution_count="9">
+<div id="af16ee38" class="cell" data-execution_count="9">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 3 hour marathon VDOT</span></span>
 <span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"3 hour mar VDOT:"</span>, o_2_cost(<span class="dv">42195</span> <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> <span class="dv">60</span>)) <span class="op">/</span> o_2_util(<span class="dv">3</span> <span class="op">*</span> <span class="dv">60</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>3 hour mar VDOT: 53.52826876260377</code></pre>
 </div>
 </div>
-<p>We can but it all together:</p>
-<div id="13f2bfa2" class="cell" data-execution_count="10">
+<p>We can put it all together:</p>
+<div id="f0129357" class="cell" data-execution_count="10">
 <div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># VDOT given time in minutes and a distance in meters</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>marathon <span class="op">=</span> <span class="dv">42195</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>half_marathon <span class="op">=</span> <span class="dv">42195</span> <span class="op">/</span> <span class="dv">2</span></span>
 <span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>vdot <span class="op">=</span> <span class="kw">lambda</span> t, d : o_2_cost(d <span class="op">/</span> t) <span class="op">/</span> o_2_util(t)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>And calculate, for example, the VDOT of a 19 minute 5k.</p>
-<div id="7d68667d" class="cell" data-execution_count="11">
+<div id="0ac81a3a" class="cell" data-execution_count="11">
 <div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># 19 minute 5k VDOT</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(vdot(<span class="dv">19</span>, <span class="dv">5000</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -564,12 +564,12 @@ d : \text{VDOT}(t, d) = \text{VDOT}(t', d')
 \text{VDOT}(t, d) = \frac{0.182258 \times \frac{d}{t} + 0.000104 \times (\frac{d}{t})^2 - 4.6}{0.2989558e^{-0.1932605t} + 0.1894393e^{-0.012778t} + 0.8}
 \]</span></p>
 <p>Or in Python:</p>
-<div id="1ad8f4e2" class="cell" data-execution_count="12">
+<div id="fe4a88e6" class="cell" data-execution_count="12">
 <div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># VDOT given time in minutes and a distance in meters</span></span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>vdot <span class="op">=</span> <span class="kw">lambda</span> t, d : (<span class="fl">0.182258</span> <span class="op">*</span> (d <span class="op">/</span> t) <span class="op">+</span> <span class="fl">0.000104</span> <span class="op">*</span> (d <span class="op">/</span> t) <span class="op">*</span> (d <span class="op">/</span> t) <span class="op">-</span> <span class="fl">4.6</span>) <span class="op">/</span> (<span class="fl">0.2989558</span> <span class="op">*</span> e <span class="op">**</span> (t <span class="op">*</span> <span class="op">-</span><span class="fl">0.1932605</span>) <span class="op">+</span> <span class="fl">0.1894393</span> <span class="op">*</span> e <span class="op">**</span> (t <span class="op">*</span> <span class="op">-</span><span class="fl">0.012778</span>) <span class="op">+</span> <span class="fl">0.8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>I suppose I can write that on more than one line.</p>
-<div id="e9e7054d" class="cell" data-execution_count="13">
+<div id="4a2f6c2a" class="cell" data-execution_count="13">
 <div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># VDOT given time in minutes and a distance in meters</span></span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> vdot(t, d):</span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>    v <span class="op">=</span> d <span class="op">/</span> t</span>
@@ -578,7 +578,7 @@ d : \text{VDOT}(t, d) = \text{VDOT}(t', d')
 <span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> cost <span class="op">/</span> util</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We then need only solve for <span class="math inline">\(d\)</span>, a simple matter. You could, of course, think your own thoughts, but I prefer to use SymPy.</p>
-<div id="528f3788" class="cell" data-execution_count="14">
+<div id="720ccdf6" class="cell" data-execution_count="14">
 <div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Create variables for time and distance</span></span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sympy</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>t, d <span class="op">=</span> sympy.symbols(<span class="st">'t d'</span>)</span>
@@ -588,70 +588,70 @@ d : \text{VDOT}(t, d) = \text{VDOT}(t', d')
 <span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a><span class="co"># View the expression</span></span>
 <span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>expr</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="92">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="118">
 <p><span class="math inline">\(\displaystyle \frac{\frac{0.000104 d^{2}}{t^{2}} + \frac{0.182258 d}{t} - 4.6}{0.8 + 0.2989558 {2.71828182845905}^{- 0.1932605 t} + 0.1894393 {2.71828182845905}^{- 0.012778 t}}\)</span></p>
 </div>
 </div>
 <p>The formatting is a bit different than what I did above manually, but you can probably convince yourself it’s the same.</p>
 <p>We take the existing example of a 19 minute 5k, which has… some VDOT.</p>
-<div id="73d442af" class="cell" data-execution_count="15">
+<div id="6c8012e7" class="cell" data-execution_count="15">
 <div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set equal to the vdot of a 19 minute 5k</span></span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>eq5k <span class="op">=</span> sympy.Eq(expr, vdot(<span class="dv">19</span>, <span class="dv">5000</span>))</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>eq5k</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="93">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="119">
 <p><span class="math inline">\(\displaystyle \frac{\frac{0.000104 d^{2}}{t^{2}} + \frac{0.182258 d}{t} - 4.6}{0.8 + 0.2989558 {2.71828182845905}^{- 0.1932605 t} + 0.1894393 {2.71828182845905}^{- 0.012778 t}} = 52.8807194286963\)</span></p>
 </div>
 </div>
 <p>And from there we can compute a distance to be covered in, say 120 minutes, previously regarded as the 30k pace.</p>
-<div id="7a5c6945" class="cell" data-execution_count="16">
+<div id="1e3c0d05" class="cell" data-execution_count="16">
 <div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Two hour distance for 19 minute 5k runner</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> <span class="dv">120</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>twoh <span class="op">=</span> sympy.Eq(vdot(t, d), vdot(<span class="dv">19</span>, <span class="dv">5000</span>))</span>
 <span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>twoh</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="94">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="120">
 <p><span class="math inline">\(\displaystyle 8.58885744354709 \cdot 10^{-9} d^{2} + 0.0018062168999377 d - 5.47044151019768 = 52.8807194286963\)</span></p>
 </div>
 </div>
 <p>It is a simple enough matter to solve for <span class="math inline">\(d\)</span>.</p>
-<div id="825b4bed" class="cell" data-execution_count="17">
+<div id="7dac7339" class="cell" data-execution_count="17">
 <div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Distance for a 2 hour run</span></span>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> sympy.solve(twoh, d)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="95">
+<div class="cell-output cell-output-display" data-execution_count="121">
 <pre><code>[-238753.116104769, 28455.4237970761]</code></pre>
 </div>
 </div>
 <p>From there, we can use our experience as runners to realize we rarely, if ever, run negative distances. We got close to, but not exactly, 30k.</p>
-<div id="6d38f251" class="cell" data-execution_count="18">
+<div id="7aaf7494" class="cell" data-execution_count="18">
 <div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Distance for a 2 hour run</span></span>
 <span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>dist <span class="op">=</span> [d <span class="cf">for</span> d <span class="kw">in</span> dist <span class="cf">if</span> d <span class="op">&gt;</span> <span class="dv">0</span>][<span class="dv">0</span>]</span>
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="96">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="122">
 <p><span class="math inline">\(\displaystyle 28455.4237970761\)</span></p>
 </div>
 </div>
 <p>This is probably more useful to us in minutes per mile, which I happen to use because of the uncommon misfortune of living in a country that places mile markers, rather than kilometre markers, on its race courses.</p>
-<div id="369fc0f5" class="cell" data-execution_count="19">
+<div id="76d03e77" class="cell" data-execution_count="19">
 <div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># There are 1609.344 m in a mi </span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co"># https://en.wikipedia.org/wiki/Mile</span></span>
 <span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>mi <span class="op">=</span> <span class="fl">1609.344</span></span>
 <span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>pace <span class="op">=</span> t <span class="op">/</span> (dist <span class="op">/</span> mi)</span>
 <span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>pace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="97">
+<div class="cell-output cell-output-display cell-output-markdown" data-execution_count="123">
 <p><span class="math inline">\(\displaystyle 6.78680034348474\)</span></p>
 </div>
 </div>
 <p>In fairly obnoxious fashion, I also use seconds instead of fractional minutes.</p>
-<div id="5abe8ce9" class="cell" data-execution_count="20">
+<div id="cf565e75" class="cell" data-execution_count="20">
 <div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>pace <span class="op">//</span> <span class="dv">1</span>, pace <span class="op">%</span> <span class="dv">1</span> <span class="op">*</span> <span class="dv">60</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="98">
+<div class="cell-output cell-output-display" data-execution_count="124">
 <pre><code>(6, 47.2080206090843)</code></pre>
 </div>
 </div>
 <p>We can format that to look a bit nicer.</p>
-<div id="b7eb61b2" class="cell" data-execution_count="21">
+<div id="06cf21e3" class="cell" data-execution_count="21">
 <div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co">"%02d:%02d"</span> <span class="op">%</span> (pace <span class="op">//</span> <span class="dv">1</span>, pace <span class="op">%</span> <span class="dv">1</span> <span class="op">*</span> <span class="dv">60</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-display" data-execution_count="99">
+<div class="cell-output cell-output-display" data-execution_count="125">
 <pre><code>'06:47'</code></pre>
 </div>
 </div>
@@ -682,7 +682,7 @@ d : \text{VDOT}(t, d) = \text{VDOT}(t', d')
 <section id="putting-it-all-together" class="level3">
 <h3 class="anchored" data-anchor-id="putting-it-all-together">Putting it all together</h3>
 <p>Before that though, we took many tiny steps to get to our result. Let’s wrap that up into one solution, shall we?</p>
-<div id="9134e999" class="cell" data-execution_count="22">
+<div id="442a6bf3" class="cell" data-execution_count="22">
 <div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Take </span></span>
 <span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="co">#      a race time in minutes</span></span>
 <span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="co">#      a race distance in meters </span></span>
@@ -712,7 +712,7 @@ d : \text{VDOT}(t, d) = \text{VDOT}(t', d')
 <span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> pace</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>We can “pretty” print the paces.</p>
-<div id="0b43267a" class="cell" data-execution_count="23">
+<div id="9d940f24" class="cell" data-execution_count="23">
 <div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Take </span></span>
 <span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="co">#      a race time in minutes</span></span>
 <span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="co">#      a race distance in meters </span></span>
@@ -724,7 +724,7 @@ d : \text{VDOT}(t, d) = \text{VDOT}(t', d')
 <span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>   show_pace(pace_finder(t, d, <span class="dv">120</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <p>Now, training paces for someone with a 19 minute 5k.</p>
-<div id="c7dbed6b" class="cell" data-execution_count="24">
+<div id="8204b2e6" class="cell" data-execution_count="24">
 <div class="sourceCode cell-code" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>interval_finder(<span class="dv">19</span>, <span class="dv">5000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>06:29
@@ -763,7 +763,7 @@ d : \text{VDOT}(t, d) = \text{VDOT}(t', d')
 <section id="seeing-the-difference" class="level3">
 <h3 class="anchored" data-anchor-id="seeing-the-difference">Seeing the Difference</h3>
 <p>Let’s consider a 13 minute 5k and a 30 minute 5k.</p>
-<div id="9ab9176a" class="cell" data-execution_count="25">
+<div id="ec73dfec" class="cell" data-execution_count="25">
 <div class="sourceCode cell-code" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>interval_finder(<span class="dv">13</span>, <span class="dv">5000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>04:32
@@ -797,7 +797,7 @@ d : \text{VDOT}(t, d) = \text{VDOT}(t', d')
 </tr>
 </tbody>
 </table>
-<div id="12e2c31d" class="cell" data-execution_count="26">
+<div id="98c4359d" class="cell" data-execution_count="26">
 <div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>interval_finder(<span class="dv">30</span>, <span class="dv">5000</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>10:00
@@ -1581,7 +1581,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 <span id="cb44-225"><a href="#cb44-225" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"3 hour mar VDOT:"</span>, o_2_cost(<span class="dv">42195</span> <span class="op">/</span> (<span class="dv">3</span> <span class="op">*</span> <span class="dv">60</span>)) <span class="op">/</span> o_2_util(<span class="dv">3</span> <span class="op">*</span> <span class="dv">60</span>))</span>
 <span id="cb44-226"><a href="#cb44-226" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
 <span id="cb44-227"><a href="#cb44-227" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb44-228"><a href="#cb44-228" aria-hidden="true" tabindex="-1"></a>We can but it all together:</span>
+<span id="cb44-228"><a href="#cb44-228" aria-hidden="true" tabindex="-1"></a>We can put it all together:</span>
 <span id="cb44-229"><a href="#cb44-229" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb44-232"><a href="#cb44-232" aria-hidden="true" tabindex="-1"></a><span class="in">```{python}</span></span>
 <span id="cb44-233"><a href="#cb44-233" aria-hidden="true" tabindex="-1"></a><span class="co"># VDOT given time in minutes and a distance in meters</span></span>

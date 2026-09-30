@@ -207,7 +207,7 @@ And about that marathon...
 print("3 hour mar VDOT:", o_2_cost(42195 / (3 * 60)) / o_2_util(3 * 60))
 ```
 
-We can but it all together:
+We can put it all together:
 
 ```{python}
 # VDOT given time in minutes and a distance in meters
