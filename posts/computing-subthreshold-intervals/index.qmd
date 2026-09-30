@@ -34,7 +34,7 @@ There is one fundamental problem with the existing `NSM` formulations of which I
 To the best of my knowledge, this tool was developed on a slight misinterpretation of early reported results from lactate testing. I believe, originally, three weekly intervals were recommended as follows:
 
 | Count | Duration, minutes | Pace, race distance |
-|-|-|
+|-|-|-|
 |8-12 | 3-4   |  15k |
 | 4-6 | 6-8   | HM (~21k) |
 | 3   | 10-12 | 30k |
